@@ -1,0 +1,194 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    // 0. Default Deny Everything
+    match /{document=**} {
+      allow read, write: if false;
+    }
+
+    // --- Global Helpers ---
+    function isSignedIn() {
+      return request.auth != null;
+    }
+
+    function isOwner(userId) {
+      return isSignedIn() && request.auth.uid == userId;
+    }
+
+    function incoming() {
+      return request.resource.data;
+    }
+
+    function existing() {
+      return resource.data;
+    }
+
+    function isValidId(id) {
+      return id is string && id.size() <= 128 && id.matches('^[a-zA-Z0-9_\\-]+$');
+    }
+
+    // Auth tokens do not contain custom claims, so we look up roles in the USERS collection.
+    function myProfile() {
+      return get(/databases/$(database)/documents/users/$(request.auth.uid)).data;
+    }
+
+    function isSuperadmin() {
+      return isSignedIn() && (
+        (exists(/databases/$(database)/documents/users/$(request.auth.uid)) &&
+         myProfile().role == 'superadmin') ||
+        request.auth.token.email == 'YOUR_SUPERADMIN_EMAIL@example.com'
+      );
+    }
+
+    function isBrandAdminOf(brandId) {
+      return isSignedIn() &&
+        exists(/databases/$(database)/documents/users/$(request.auth.uid)) &&
+        myProfile().role == 'brand_admin' &&
+        myProfile().brandId == brandId;
+    }
+
+    // --- Users ---
+    match /users/{userId} {
+      function isValidSelfSignup(data) {
+        return data.uid == userId
+               && data.email is string && data.email.size() > 0
+               && (request.auth.token.email == data.email)
+               && data.role in ['customer', 'superadmin']
+               && (data.role == 'customer' || data.email == 'YOUR_SUPERADMIN_EMAIL@example.com')
+               && data.createdAt is string;
+      }
+
+      function isValidBrandAdminProvisioning(data) {
+        return data.uid == userId
+               && data.email is string && data.email.size() > 0
+               && data.role == 'brand_admin'
+               && data.brandId is string
+               && data.createdAt is string;
+      }
+
+      // Users can always read their own profile. Superadmin and a brand's own
+      // admin can read profiles tied to their brand context.
+      allow get: if isOwner(userId) || isSuperadmin();
+
+      // Self-signup: customers (via Google) and the bootstrap superadmin email.
+      allow create: if (isOwner(userId) && isValidSelfSignup(incoming()))
+                    // Superadmin provisioning a new brand_admin account during approval.
+                    || (isSuperadmin() && isValidBrandAdminProvisioning(incoming()));
+
+      // Users can update their own profile but not escalate their own role.
+      // Only the bootstrap superadmin email can promote itself to superadmin.
+      // Superadmin can also promote an applicant's own profile to brand_admin
+      // as part of approving their brand request.
+      allow update: if (isOwner(userId) && (
+        incoming().role == existing().role ||
+        (incoming().role == 'superadmin' && incoming().email == 'YOUR_SUPERADMIN_EMAIL@example.com')
+      )) || (
+        isSuperadmin() &&
+        incoming().role == 'brand_admin' &&
+        incoming().diff(existing()).affectedKeys().hasOnly(['role', 'brandId'])
+      );
+    }
+
+    // --- Organizations (brands) ---
+    match /organizations/{brandId} {
+      function isValidOrg(data) {
+        return data.name is string && data.name.size() > 0 && data.name.size() <= 100
+               && data.slug is string && data.slug.size() > 0
+               && data.status in ['active', 'suspended']
+               && data.ownerEmail is string
+               && data.createdAt is string;
+      }
+
+      // Public storefronts need to read brand info to render.
+      allow get: if true;
+      allow list: if isSuperadmin();
+
+      // Only superadmin creates brands (via the approval flow).
+      allow create: if isSuperadmin() && isValidOrg(incoming());
+
+      // Superadmin can edit anything (status, etc). A brand's own admin can
+      // edit their brand's display info, but not their own status.
+      allow update: if isSuperadmin() || (
+        isBrandAdminOf(brandId) &&
+        incoming().diff(existing()).affectedKeys().hasOnly(['name', 'logoUrl', 'contactPhone'])
+      );
+
+      allow delete: if isSuperadmin();
+
+      // Meals: public read (storefront + menu), brand admin manages.
+      match /meals/{mealId} {
+        function isValidMeal(data) {
+          return data.name is string && data.name.size() > 0 && data.name.size() <= 100
+                 && data.get('description', '') is string && data.get('description', '').size() <= 2000
+                 && data.price is number && data.price > 0
+                 && data.category in ['Main Dish', 'Quick Bite', 'Daily Special', 'Traditional']
+                 && data.country in ['Uganda', 'Somalia', 'Eritrea', 'DR Congo', 'Nigeria', 'Sudan']
+                 && (data.imageUrl is string || !('imageUrl' in data))
+                 && (data.isAvailable is bool || !('isAvailable' in data))
+                 && (data.get('options', []) is list)
+                 && (data.createdAt is string || !('createdAt' in data) || data.createdAt == null)
+                 && (data.updatedAt is string || !('updatedAt' in data) || data.updatedAt == null);
+        }
+
+        allow list, get: if true;
+        allow create: if (isBrandAdminOf(brandId) || isSuperadmin()) && isValidMeal(incoming());
+        allow update: if (isBrandAdminOf(brandId) || isSuperadmin()) && isValidMeal(incoming());
+        allow delete: if isBrandAdminOf(brandId) || isSuperadmin();
+      }
+
+      // Orders: customers create/read their own, brand admin manages all of theirs.
+      match /orders/{orderId} {
+        function isValidOrder(data) {
+          return data.userId == request.auth.uid
+                 && data.mealId is string
+                 && (data.get('selectedOption', '') is string)
+                 && data.quantity is number && data.quantity > 0 && data.quantity <= 20
+                 && data.totalPrice is number && data.totalPrice > 0
+                 && data.status in ['pending', 'confirmed', 'delivered', 'cancelled']
+                 && data.deliveryDate is string
+                 && data.deliveryLocation is string && data.deliveryLocation.size() <= 1000
+                 && data.createdAt is string;
+        }
+
+        allow get: if isSignedIn() && (existing().userId == request.auth.uid || isBrandAdminOf(brandId) || isSuperadmin());
+        allow list: if isSignedIn() && (resource.data.userId == request.auth.uid || isBrandAdminOf(brandId) || isSuperadmin());
+
+        allow create: if isSignedIn() && isValidOrder(incoming());
+
+        allow update: if isSignedIn() && (
+          // Brand admin can update status and paidAmount
+          ((isBrandAdminOf(brandId) || isSuperadmin()) && (
+             incoming().diff(existing()).affectedKeys().hasAny(['status', 'paidAmount']) ||
+             incoming().diff(existing()).affectedKeys().hasOnly(['status'])
+          )) ||
+          // Customer can cancel their own pending order
+          (isOwner(existing().userId) && existing().status == 'pending' && incoming().status == 'cancelled' && incoming().diff(existing()).affectedKeys().hasOnly(['status']))
+        );
+      }
+    }
+
+    // --- Brand requests (public applications, superadmin reviews) ---
+    match /brandRequests/{requestId} {
+      function isValidRequest(data) {
+        return data.applicantUid == request.auth.uid
+               && data.brandName is string && data.brandName.size() > 0 && data.brandName.size() <= 100
+               && data.slug is string && data.slug.size() > 0
+               && data.applicantName is string && data.applicantName.size() > 0
+               && data.applicantEmail is string && data.applicantEmail.size() > 0
+               && data.applicantPhone is string
+               && data.status == 'pending'
+               && data.createdAt is string;
+      }
+
+      // The applicant creates their own Auth account first, then files this
+      // request while signed in as that same account.
+      allow create: if isSignedIn() && isValidRequest(incoming());
+
+      // Superadmin manages the whole queue; an applicant can read their own
+      // request(s) to check status (used by the staff-login pending screen).
+      allow get, list: if isSuperadmin() || (isSignedIn() && resource.data.applicantUid == request.auth.uid);
+      allow update: if isSuperadmin();
+      allow delete: if isSuperadmin();
+    }
+  }
+}
