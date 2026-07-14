@@ -1,4 +1,4 @@
-import React, { createContext, useContext, useEffect, useState } from 'react';
+import React, { createContext, useContext, useEffect, useState } from "react";
 import {
   onAuthStateChanged,
   signInWithPopup,
@@ -7,19 +7,19 @@ import {
   signInWithEmailAndPassword,
   GoogleAuthProvider,
   signOut as firebaseSignOut,
-  User
-} from 'firebase/auth';
-import { doc, getDoc, setDoc } from 'firebase/firestore';
-import { auth, db } from '../lib/firebase';
-import { UserProfile } from '../types';
+  User,
+} from "firebase/auth";
+import { doc, getDoc, setDoc } from "firebase/firestore";
+import { auth, db } from "../lib/firebase";
+import { UserProfile } from "../types";
 
 export enum OperationType {
-  CREATE = 'create',
-  UPDATE = 'update',
-  DELETE = 'delete',
-  LIST = 'list',
-  GET = 'get',
-  WRITE = 'write',
+  CREATE = "create",
+  UPDATE = "update",
+  DELETE = "delete",
+  LIST = "list",
+  GET = "get",
+  WRITE = "write",
 }
 
 interface FirestoreErrorInfo {
@@ -31,10 +31,14 @@ interface FirestoreErrorInfo {
     email?: string | null;
     emailVerified?: boolean | null;
     isAnonymous?: boolean | null;
-  }
+  };
 }
 
-export function handleFirestoreError(error: unknown, operationType: OperationType, path: string | null) {
+export function handleFirestoreError(
+  error: unknown,
+  operationType: OperationType,
+  path: string | null,
+) {
   const errInfo: FirestoreErrorInfo = {
     error: error instanceof Error ? error.message : String(error),
     authInfo: {
@@ -44,9 +48,9 @@ export function handleFirestoreError(error: unknown, operationType: OperationTyp
       isAnonymous: auth.currentUser?.isAnonymous,
     },
     operationType,
-    path
-  }
-  console.error('Firestore Error: ', JSON.stringify(errInfo));
+    path,
+  };
+  console.error("Firestore Error: ", JSON.stringify(errInfo));
   throw new Error(JSON.stringify(errInfo));
 }
 
@@ -69,7 +73,7 @@ const AuthContext = createContext<AuthContextType | undefined>(undefined);
 // are provisioned by the superadmin's brand-approval flow (see
 // lib/organizations.ts), which writes their users/{uid} doc directly with
 // role 'brand_admin' before they ever log in.
-const SUPERADMIN_EMAILS = ['YOUR_SUPERADMIN_EMAIL@example.com'];
+const SUPERADMIN_EMAILS = ["henryambele827@gmail.com"];
 
 export function AuthProvider({ children }: { children: React.ReactNode }) {
   const [user, setUser] = useState<User | null>(null);
@@ -79,54 +83,63 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
 
   useEffect(() => {
     // Handle redirect result on page load
-    getRedirectResult(auth)
-      .catch((error: any) => {
-        console.error('Redirect result error:', error);
-        if (error.code === 'auth/network-request-failed' || error.code === 'auth/internal-error') {
-          setAuthError('NETWORK_ERROR');
-        } else if (error.code === 'auth/no-auth-event') {
-          // Ignore - not a redirect result
-        } else {
-          setAuthError('SIGN_IN_FAILED');
-        }
-      });
+    getRedirectResult(auth).catch((error: any) => {
+      console.error("Redirect result error:", error);
+      if (
+        error.code === "auth/network-request-failed" ||
+        error.code === "auth/internal-error"
+      ) {
+        setAuthError("NETWORK_ERROR");
+      } else if (error.code === "auth/no-auth-event") {
+        // Ignore - not a redirect result
+      } else {
+        setAuthError("SIGN_IN_FAILED");
+      }
+    });
 
     const unsubscribe = onAuthStateChanged(auth, async (user) => {
       setUser(user);
       if (user) {
         const path = `users/${user.uid}`;
         try {
-          const docRef = doc(db, 'users', user.uid);
+          const docRef = doc(db, "users", user.uid);
           const docSnap = await getDoc(docRef);
-          
+
           if (docSnap.exists()) {
             const currentProfile = docSnap.data() as UserProfile;
-            const isBootstrapSuperadmin = SUPERADMIN_EMAILS.includes(user.email || '');
-            
+            const isBootstrapSuperadmin = SUPERADMIN_EMAILS.includes(
+              user.email || "",
+            );
+
             // Auto-promote if they should be superadmin but aren't yet
-            if (isBootstrapSuperadmin && currentProfile.role !== 'superadmin') {
-              const updatedProfile = { ...currentProfile, role: 'superadmin' as const };
+            if (isBootstrapSuperadmin && currentProfile.role !== "superadmin") {
+              const updatedProfile = {
+                ...currentProfile,
+                role: "superadmin" as const,
+              };
               await setDoc(docRef, updatedProfile, { merge: true });
               setProfile(updatedProfile);
             } else {
               setProfile(currentProfile);
             }
           } else {
-            const isBootstrapSuperadmin = SUPERADMIN_EMAILS.includes(user.email || '');
+            const isBootstrapSuperadmin = SUPERADMIN_EMAILS.includes(
+              user.email || "",
+            );
             const newProfile: UserProfile = {
               uid: user.uid,
-              email: user.email || '',
-              displayName: user.displayName || 'Customer',
-              role: isBootstrapSuperadmin ? 'superadmin' : 'customer',
+              email: user.email || "",
+              displayName: user.displayName || "Customer",
+              role: isBootstrapSuperadmin ? "superadmin" : "customer",
               createdAt: new Date().toISOString(),
             };
             await setDoc(docRef, newProfile);
             setProfile(newProfile);
           }
         } catch (error: any) {
-          console.error('Error fetching/creating profile:', error);
-          if (error.message?.includes('offline')) {
-            setAuthError('OFFLINE');
+          console.error("Error fetching/creating profile:", error);
+          if (error.message?.includes("offline")) {
+            setAuthError("OFFLINE");
           } else {
             // Log but don't necessarily crash the whole app for first-time users
             try {
@@ -160,30 +173,40 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     try {
       await signInWithPopup(auth, provider);
     } catch (error: any) {
-      console.log('Popup failed, trying redirect:', error.code);
+      console.log("Popup failed, trying redirect:", error.code);
       // Fall back to redirect if popup is blocked or fails
-      if (error.code === 'auth/popup-blocked' ||
-          error.code === 'auth/popup-closed-by-user' ||
-          error.code === 'auth/cancelled-popup-request' ||
-          error.code.includes('storage') ||
-          error.code.includes('state')) {
+      if (
+        error.code === "auth/popup-blocked" ||
+        error.code === "auth/popup-closed-by-user" ||
+        error.code === "auth/cancelled-popup-request" ||
+        error.code.includes("storage") ||
+        error.code.includes("state")
+      ) {
         try {
           await signInWithRedirect(auth, provider);
         } catch (redirectError: any) {
           isSigningIn.current = false;
-          console.error('Redirect error:', redirectError);
-          if (redirectError.code === 'auth/network-request-failed') {
-            setAuthError('NETWORK_ERROR');
+          console.error("Redirect error:", redirectError);
+          if (redirectError.code === "auth/network-request-failed") {
+            setAuthError("NETWORK_ERROR");
+          } else if (redirectError.code === "auth/operation-not-allowed") {
+            setAuthError("OPERATION_NOT_ALLOWED_GOOGLE");
           } else {
-            setAuthError('SIGN_IN_FAILED');
+            setAuthError("SIGN_IN_FAILED");
           }
         }
-      } else if (error.code === 'auth/network-request-failed' || error.code === 'auth/internal-error') {
+      } else if (
+        error.code === "auth/network-request-failed" ||
+        error.code === "auth/internal-error"
+      ) {
         isSigningIn.current = false;
-        setAuthError('NETWORK_ERROR');
+        setAuthError("NETWORK_ERROR");
+      } else if (error.code === "auth/operation-not-allowed") {
+        isSigningIn.current = false;
+        setAuthError("OPERATION_NOT_ALLOWED_GOOGLE");
       } else {
         isSigningIn.current = false;
-        setAuthError('SIGN_IN_FAILED');
+        setAuthError("SIGN_IN_FAILED");
       }
     }
   };
@@ -195,13 +218,19 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     try {
       await signInWithEmailAndPassword(auth, email, password);
     } catch (error: any) {
-      console.error('Staff sign-in error:', error.code);
-      if (error.code === 'auth/network-request-failed') {
-        setAuthError('NETWORK_ERROR');
-      } else if (error.code === 'auth/invalid-credential' || error.code === 'auth/wrong-password' || error.code === 'auth/user-not-found') {
-        setAuthError('INVALID_CREDENTIALS');
+      console.error("Staff sign-in error:", error.code);
+      if (error.code === "auth/network-request-failed") {
+        setAuthError("NETWORK_ERROR");
+      } else if (
+        error.code === "auth/invalid-credential" ||
+        error.code === "auth/wrong-password" ||
+        error.code === "auth/user-not-found"
+      ) {
+        setAuthError("INVALID_CREDENTIALS");
+      } else if (error.code === "auth/operation-not-allowed") {
+        setAuthError("OPERATION_NOT_ALLOWED");
       } else {
-        setAuthError('SIGN_IN_FAILED');
+        setAuthError("SIGN_IN_FAILED");
       }
       throw error;
     }
@@ -211,12 +240,23 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     try {
       await firebaseSignOut(auth);
     } catch (error) {
-      console.error('Sign out error', error);
+      console.error("Sign out error", error);
     }
   };
 
   return (
-    <AuthContext.Provider value={{ user, profile, loading, authError, signIn, signInStaff, signOut, clearAuthError }}>
+    <AuthContext.Provider
+      value={{
+        user,
+        profile,
+        loading,
+        authError,
+        signIn,
+        signInStaff,
+        signOut,
+        clearAuthError,
+      }}
+    >
       {children}
     </AuthContext.Provider>
   );
@@ -225,7 +265,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
 export function useAuth() {
   const context = useContext(AuthContext);
   if (context === undefined) {
-    throw new Error('useAuth must be used within an AuthProvider');
+    throw new Error("useAuth must be used within an AuthProvider");
   }
   return context;
 }
