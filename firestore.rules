@@ -36,7 +36,7 @@ service cloud.firestore {
       return isSignedIn() && (
         (exists(/databases/$(database)/documents/users/$(request.auth.uid)) &&
          myProfile().role == 'superadmin') ||
-        request.auth.token.email == 'YOUR_SUPERADMIN_EMAIL@example.com'
+        request.auth.token.email == 'henryambele827@gmail.com'
       );
     }
 
@@ -54,7 +54,7 @@ service cloud.firestore {
                && data.email is string && data.email.size() > 0
                && (request.auth.token.email == data.email)
                && data.role in ['customer', 'superadmin']
-               && (data.role == 'customer' || data.email == 'YOUR_SUPERADMIN_EMAIL@example.com')
+               && (data.role == 'customer' || data.email == 'henryambele827@gmail.com')
                && data.createdAt is string;
       }
 
@@ -81,7 +81,7 @@ service cloud.firestore {
       // as part of approving their brand request.
       allow update: if (isOwner(userId) && (
         incoming().role == existing().role ||
-        (incoming().role == 'superadmin' && incoming().email == 'YOUR_SUPERADMIN_EMAIL@example.com')
+        (incoming().role == 'superadmin' && incoming().email == 'henryambele827@gmail.com')
       )) || (
         isSuperadmin() &&
         incoming().role == 'brand_admin' &&
@@ -101,7 +101,7 @@ service cloud.firestore {
 
       // Public storefronts need to read brand info to render.
       allow get: if true;
-      allow list: if isSuperadmin();
+      allow list: if true;
 
       // Only superadmin creates brands (via the approval flow).
       allow create: if isSuperadmin() && isValidOrg(incoming());
@@ -184,9 +184,9 @@ service cloud.firestore {
       // request while signed in as that same account.
       allow create: if isSignedIn() && isValidRequest(incoming());
 
-      // Superadmin manages the whole queue; an applicant can read their own
-      // request(s) to check status (used by the staff-login pending screen).
-      allow get, list: if isSuperadmin() || (isSignedIn() && resource.data.applicantUid == request.auth.uid);
+      // Superadmin manages the whole queue; anyone can read requests to check slug availability
+      // or check their own request's status.
+      allow get, list: if true;
       allow update: if isSuperadmin();
       allow delete: if isSuperadmin();
     }
