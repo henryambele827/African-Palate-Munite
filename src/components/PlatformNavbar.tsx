@@ -1,12 +1,12 @@
-import React from 'react';
-import { Link } from 'react-router-dom';
-import { LogOut, ShieldCheck } from 'lucide-react';
-import { useAuth } from './AuthProvider';
+import React from "react";
+import { Link } from "react-router-dom";
+import { LogOut, ShieldCheck } from "lucide-react";
+import { useAuth } from "./AuthProvider";
 
 // Rendered on the platform-level routes: "/", "/register-brand", "/staff-login",
 // and "/superadmin". Distinct from the per-brand Navbar in Navbar.tsx.
 export default function PlatformNavbar() {
-  const { user, profile, signOut } = useAuth();
+  const { user, profile, signIn, signOut } = useAuth();
 
   return (
     <nav className="sticky top-4 z-50 mx-4">
@@ -19,16 +19,21 @@ export default function PlatformNavbar() {
             <span className="font-sans text-xl font-black tracking-tighter italic text-brand-orange group-hover:opacity-80 transition-opacity">
               AFRICAN PALATE
             </span>
-            <span className="text-[10px] uppercase tracking-widest text-gray-400 font-bold">Restaurant Platform</span>
+            <span className="text-[10px] uppercase tracking-widest text-gray-400 font-bold">
+              Restaurant Platform
+            </span>
           </div>
         </Link>
 
         <div className="flex items-center gap-6">
-          <Link to="/register-brand" className="hidden sm:block text-xs font-black uppercase tracking-widest text-gray-400 hover:text-brand-orange transition-colors">
+          <Link
+            to="/register-brand"
+            className="hidden sm:block text-xs font-black uppercase tracking-widest text-gray-400 hover:text-brand-orange transition-colors"
+          >
             Register a Restaurant
           </Link>
 
-          {profile?.role === 'superadmin' ? (
+          {profile?.role === "superadmin" ? (
             <div className="flex items-center gap-4">
               <Link
                 to="/superadmin"
@@ -53,12 +58,20 @@ export default function PlatformNavbar() {
               Exit
             </button>
           ) : (
-            <Link
-              to="/staff-login"
-              className="bg-black text-white px-6 py-2.5 rounded-full text-xs font-black uppercase tracking-widest italic hover:scale-105 transition-transform"
-            >
-              Staff Login
-            </Link>
+            <div className="flex items-center gap-3">
+              <button
+                onClick={() => signIn()}
+                className="bg-brand-orange text-white px-5 py-2.5 rounded-full text-xs font-black uppercase tracking-widest italic hover:scale-105 transition-transform cursor-pointer"
+              >
+                Sign In
+              </button>
+              <Link
+                to="/staff-login"
+                className="bg-black text-white px-5 py-2.5 rounded-full text-xs font-black uppercase tracking-widest italic hover:scale-105 transition-transform"
+              >
+                Staff Login
+              </Link>
+            </div>
           )}
         </div>
       </div>
