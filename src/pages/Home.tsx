@@ -20,13 +20,13 @@ const CUISINES = [
   { name: 'Eritrea', image: 'https://images.unsplash.com/photo-1467003909585-2f8a72700288?auto=format&fit=crop&q=80&w=800' },
   { name: 'Ethiopia', image: 'https://images.unsplash.com/photo-1585238342024-78d387f4a707?auto=format&fit=crop&q=80&w=800' },
   { name: 'Kenya', image: 'https://images.unsplash.com/photo-1544025162-d76694265947?auto=format&fit=crop&q=80&w=800' },
-  { name: 'Tanzania', image: 'https://images.unsplash.com/photo-1516026672322-bc52d61a55d5?auto=format&fit=crop&q=80&w=800' },
+  { name: 'Tanzania', image: 'https://plus.unsplash.com/premium_photo-1664360227457-e557c4d7f0e6?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Mjl8fFRhbnphbmlhJTIwZm9vZHxlbnwwfHwwfHx8MA%3D%3D' },
   { name: 'Rwanda', image: 'https://images.unsplash.com/photo-1574484284002-952d92456975?auto=format&fit=crop&q=80&w=800' },
-  { name: 'Ghana', image: 'https://images.unsplash.com/photo-1628294895518-80f074d08151?auto=format&fit=crop&q=80&w=800' },
+  { name: 'Ghana', image: 'https://images.unsplash.com/photo-1705088293220-c1a22b5d214a?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Mnx8Z2hhbmElMjBmb29kfGVufDB8fDB8fHww' },
   { name: 'Senegal', image: 'https://images.unsplash.com/photo-1504674900247-0877df9cc836?auto=format&fit=crop&q=80&w=800' },
   { name: 'Cameroon', image: 'https://images.unsplash.com/photo-1604329760661-e71dc83f8f26?auto=format&fit=crop&q=80&w=800' },
-  { name: 'South Africa', image: 'https://images.unsplash.com/photo-1534080391025-a774ddf21f10?auto=format&fit=crop&q=80&w=800' },
-  { name: 'Morocco', image: 'https://images.unsplash.com/photo-1539750807094-1a3b047a2496?auto=format&fit=crop&q=80&w=800' },
+  { name: 'South Africa', image: 'https://images.unsplash.com/photo-1661312220526-1dffbc8ac19f?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTR8fHNvdXRoJTIwYWZyaWNhJTIwZm9vZHxlbnwwfHwwfHx8MA%3D%3D' },
+  { name: 'Morocco', image: 'https://images.unsplash.com/photo-1517314597476-e1788060b6cb?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTF8fG1vcm9jY28lMjBmb29kfGVufDB8fDB8fHww' },
   { name: 'Egypt', image: 'https://images.unsplash.com/photo-1541518763669-27fef04b14ea?auto=format&fit=crop&q=80&w=800' },
   { name: 'Diverse', image: 'https://images.unsplash.com/photo-1543007630-9710e4a00a20?auto=format&fit=crop&q=80&w=800' },
 ];
@@ -49,25 +49,61 @@ export default function Home() {
 
   return (
     <div className="bg-white overflow-hidden">
-      {/* Hero */}
-      <section className="relative min-h-[88vh] flex items-center pt-28 pb-20 overflow-hidden">
-        <div className="absolute inset-0 z-0 pointer-events-none">
-          <div className="absolute inset-0 bg-gradient-to-b from-white via-transparent to-white" />
+      {/* Hero — alive, image-backed, full-header (image extends behind floating navbar) */}
+      <section className="relative -mt-[88px] min-h-[100vh] flex items-center pt-32 pb-16 overflow-hidden text-white">
+        {/* Background image */}
+        <div className="absolute inset-0 z-0">
+          <motion.img
+            src="https://images.unsplash.com/photo-1578474846511-04ba529f0b88?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8N3x8cmVzdGF1cmFudHxlbnwwfHwwfHx8MA%3D%3D"
+            alt=""
+            initial={{ scale: 1.1 }}
+            animate={{ scale: 1 }}
+            transition={{ duration: 1.6, ease: 'easeOut' }}
+            className="w-full h-full object-cover"
+            referrerPolicy="no-referrer"
+            onError={(e) => {
+              (e.currentTarget as HTMLImageElement).style.display = 'none';
+            }}
+          />
+          {/* Dark overlay for legibility */}
+          <div className="absolute inset-0 bg-gradient-to-br from-black/85 via-black/70 to-brand-orange/40" />
+          <div className="absolute inset-0 bg-gradient-to-t from-black via-transparent to-black/40" />
+
+          {/* Floating animated blobs */}
           <motion.div
-            animate={{ scale: [1, 1.1, 1], opacity: [0.1, 0.2, 0.1] }}
-            transition={{ duration: 10, repeat: Infinity }}
-            className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[150%] h-[150%] bg-[radial-gradient(circle,rgba(230,81,0,0.15)_0%,transparent_70%)]"
+            animate={{ x: [0, 40, 0], y: [0, -30, 0] }}
+            transition={{ duration: 12, repeat: Infinity, ease: 'easeInOut' }}
+            className="absolute top-20 right-10 w-72 h-72 bg-brand-orange/30 rounded-full blur-3xl"
+          />
+          <motion.div
+            animate={{ x: [0, -30, 0], y: [0, 40, 0] }}
+            transition={{ duration: 14, repeat: Infinity, ease: 'easeInOut' }}
+            className="absolute bottom-10 left-10 w-96 h-96 bg-brand-yellow/20 rounded-full blur-3xl"
           />
         </div>
+
+        {/* Floating "Now Cooking" status pill */}
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.8 }}
+          className="hidden md:flex absolute top-28 right-12 z-10 items-center gap-3 bg-white/10 backdrop-blur-xl border border-white/20 rounded-2xl px-5 py-3 shadow-2xl"
+        >
+          <span className="w-2 h-2 rounded-full bg-brand-green animate-pulse" />
+          <span className="text-xs font-black uppercase tracking-widest text-white">
+            Now Cooking
+          </span>
+          <span className="text-xs font-black text-brand-yellow">17 orders</span>
+        </motion.div>
 
         <div className="container mx-auto px-4 md:px-6 relative z-20">
           <div className="max-w-4xl">
             <motion.div
               initial={{ opacity: 0, y: 30 }}
               animate={{ opacity: 1, y: 0 }}
-              className="flex items-center gap-4 mb-6"
+              className="flex items-center gap-4 mb-8"
             >
-              <div className="w-16 h-16 rounded-2xl overflow-hidden shadow-2xl shadow-brand-orange/20">
+              <div className="w-16 h-16 rounded-2xl overflow-hidden shadow-2xl shadow-black/40 ring-2 ring-white/20">
                 {brand?.logoUrl ? (
                   <img
                     src={brand.logoUrl}
@@ -89,8 +125,8 @@ export default function Home() {
                   </div>
                 )}
               </div>
-              <div className="inline-flex items-center gap-2 bg-brand-orange/10 text-brand-orange px-4 py-2 rounded-full">
-                <Sparkles size={14} className="animate-pulse" />
+              <div className="inline-flex items-center gap-2 bg-white/10 backdrop-blur-xl border border-white/20 text-white px-4 py-2 rounded-full">
+                <Sparkles size={14} className="animate-pulse text-brand-yellow" />
                 <span className="text-[10px] font-black uppercase tracking-[0.3em]">
                   The Culinary Gateway
                 </span>
@@ -101,20 +137,21 @@ export default function Home() {
               initial={{ opacity: 0, y: 40 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.1 }}
-              className="text-[12vw] md:text-[8.5vw] font-black tracking-tighter leading-[0.85] uppercase italic text-black mb-6"
+              className="text-[12vw] md:text-[8.5vw] font-black tracking-tighter leading-[0.85] uppercase italic text-white mb-6 drop-shadow-2xl"
             >
               {brand?.name || 'Taste'} <br />
-              <span className="text-brand-orange">Heritage.</span>
+              <span className="text-brand-yellow">Heritage.</span>
             </motion.h1>
 
             <motion.p
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.2 }}
-              className="text-xl md:text-2xl text-gray-500 font-medium max-w-2xl mb-10 leading-snug"
+              className="text-xl md:text-2xl text-white/80 font-medium max-w-2xl mb-10 leading-snug"
             >
-              Experience the soul of Africa through authentic, student-priced
-              meals delivered straight to your campus.
+              One platform, many kitchens. Every restaurant brand on African
+              Palate gets its own storefront, its own menu, and its own
+              dashboard — we just handle the plumbing.
             </motion.p>
 
             <motion.div
@@ -125,31 +162,19 @@ export default function Home() {
             >
               <Link
                 to="menu"
-                className="group bg-black text-white px-8 py-5 rounded-full font-black uppercase tracking-widest italic flex items-center gap-3 hover:bg-brand-orange transition-all shadow-xl shadow-black/10 hover:scale-[1.02]"
+                className="group bg-brand-orange text-white px-8 py-5 rounded-full font-black uppercase tracking-widest italic flex items-center gap-3 hover:bg-white hover:text-black transition-all shadow-2xl shadow-brand-orange/40 hover:scale-[1.02]"
               >
                 Browse the Kitchen
                 <ChevronRight className="group-hover:translate-x-1 transition-transform" />
               </Link>
               <a
                 href="#how-it-works"
-                className="group bg-white text-black border-2 border-gray-100 px-8 py-5 rounded-full font-black uppercase tracking-widest italic flex items-center gap-3 hover:border-brand-orange transition-all"
+                className="group bg-white/10 backdrop-blur-xl border-2 border-white/30 text-white px-8 py-5 rounded-full font-black uppercase tracking-widest italic flex items-center gap-3 hover:bg-white hover:text-black hover:border-white transition-all"
               >
                 How Ordering Works
               </a>
             </motion.div>
           </div>
-        </div>
-
-        {/* Floating glow */}
-        <div className="hidden lg:block absolute right-0 top-1/2 -translate-y-1/2 w-1/3 pointer-events-none">
-          <motion.div
-            animate={{ y: [0, -20, 0] }}
-            transition={{ duration: 6, repeat: Infinity, ease: 'easeInOut' }}
-            className="relative"
-          >
-            <div className="w-80 h-[500px] bg-brand-orange rounded-full opacity-[0.06] blur-[100px]" />
-            <div className="absolute top-0 right-20 w-64 h-64 border-2 border-brand-orange/20 rounded-full animate-spin-slow" />
-          </motion.div>
         </div>
       </section>
 
@@ -194,7 +219,7 @@ export default function Home() {
             </p>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 ">
             {CUISINES.map((cuisine, index) => (
               <motion.div
                 key={cuisine.name}
