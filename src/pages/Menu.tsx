@@ -9,7 +9,26 @@ import { useNavigate, useLocation } from 'react-router-dom';
 import { OperationType, handleFirestoreError, useAuth } from '../components/AuthProvider';
 import { useBrand } from '../components/BrandProvider';
 
-const COUNTRIES: (CountryCategory | 'All')[] = ['All', 'Uganda', 'Somalia', 'Eritrea', 'DR Congo', 'Nigeria', 'Sudan'];
+const COUNTRIES: (CountryCategory | 'All')[] = [
+  'All', 
+  'Uganda', 
+  'Somalia', 
+  'Eritrea', 
+  'DR Congo', 
+  'Nigeria', 
+  'Sudan', 
+  'Ethiopia', 
+  'Kenya', 
+  'Tanzania', 
+  'Rwanda', 
+  'Ghana', 
+  'Senegal', 
+  'Cameroon', 
+  'South Africa', 
+  'Egypt', 
+  'Morocco',
+  'Diverse'
+];
 
 export default function Menu() {
   const { user, signIn } = useAuth();
@@ -104,7 +123,7 @@ export default function Menu() {
               placeholder="Search dishes..."
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
-              className="w-full bg-white border-2 border-gray-100 rounded-2xl py-4 pl-12 pr-4 text-sm font-bold focus:border-brand-orange transition-colors outline-none"
+              className="w-full bg-white border-2 border-gray-100 rounded-2xl py-4 pl-12 pr-4 text-sm font-bold focus:border-brand-orange focus:shadow-lg focus:shadow-brand-orange/5 transition-all outline-none"
             />
           </div>
         </div>
@@ -141,7 +160,7 @@ export default function Menu() {
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               exit={{ opacity: 0, scale: 0.95 }}
-              className="group bg-white rounded-[2.5rem] p-4 border border-gray-100 hover:border-brand-orange/20 transition-all hover:shadow-2xl hover:shadow-black/5"
+              className="group bg-white rounded-[2.5rem] p-4 border border-gray-100 hover:border-brand-orange/30 transition-all hover:shadow-2xl hover:shadow-brand-orange/5 hover:-translate-y-1"
             >
               <div className="relative aspect-[4/3] overflow-hidden rounded-[2rem] mb-6">
                 <img 

@@ -23,29 +23,12 @@
         "name": { "type": "string" },
         "description": { "type": "string" },
         "price": { "type": "number" },
-        "category": {
-          "type": "string",
-          "enum": ["Main Dish", "Quick Bite", "Daily Special", "Traditional"]
-        },
-        "country": {
-          "type": "string",
-          "enum": [
-            "Uganda",
-            "Somalia",
-            "Eritrea",
-            "DR Congo",
-            "Nigeria",
-            "Sudan",
-            "Kenya"
-          ]
-        },
+        "category": { "type": "string", "enum": ["Main Dish", "Quick Bite", "Daily Special", "Traditional", "Appetizers & Starters", "Soups & Stews", "Grilled & BBQ", "Desserts & Sweets", "Beverages", "Sides & Accompaniments"] },
+        "country": { "type": "string", "enum": ["Uganda", "Somalia", "Eritrea", "DR Congo", "Nigeria", "Sudan", "Ethiopia", "Kenya", "Tanzania", "Rwanda", "Ghana", "Senegal", "Cameroon", "South Africa", "Egypt", "Morocco", "Diverse"] },
         "imageUrl": { "type": "string" },
         "isAvailable": { "type": "boolean" },
         "meatOptions": { "type": "array", "items": { "type": "string" } },
-        "accompanimentOptions": {
-          "type": "array",
-          "items": { "type": "string" }
-        },
+        "accompanimentOptions": { "type": "array", "items": { "type": "string" } },
         "options": { "type": "array", "items": { "type": "string" } },
         "createdAt": { "type": "string", "format": "date-time" }
       },
@@ -68,23 +51,12 @@
         "quantity": { "type": "number" },
         "totalPrice": { "type": "number" },
         "paidAmount": { "type": "number" },
-        "status": {
-          "type": "string",
-          "enum": ["pending", "confirmed", "delivered", "cancelled"]
-        },
+        "status": { "type": "string", "enum": ["pending", "confirmed", "delivered", "cancelled"] },
         "deliveryDate": { "type": "string", "format": "date" },
         "deliveryLocation": { "type": "string" },
         "createdAt": { "type": "string", "format": "date-time" }
       },
-      "required": [
-        "userId",
-        "mealId",
-        "quantity",
-        "totalPrice",
-        "status",
-        "deliveryDate",
-        "deliveryLocation"
-      ]
+      "required": ["userId", "mealId", "quantity", "totalPrice", "status", "deliveryDate", "deliveryLocation"]
     }
   },
   "firestore": {

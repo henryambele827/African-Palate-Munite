@@ -482,29 +482,29 @@ export default function Admin() {
                 <div className="space-y-4">
                   <div>
                     <label className="text-[10px] font-black uppercase tracking-widest text-gray-400 mb-1.5 block">Dish Name</label>
-                    <input 
+                    <input
                       required
-                      type="text" 
+                      type="text"
                       value={showAddForm ? newMeal.name : editFormData.name}
-                      onChange={(e) => showAddForm 
+                      onChange={(e) => showAddForm
                         ? setNewMeal({...newMeal, name: e.target.value})
                         : setEditFormData({...editFormData, name: e.target.value})
                       }
-                      className="w-full bg-gray-50 border-none rounded-2xl p-4 text-sm font-bold focus:ring-2 focus:ring-brand-orange/20 transition-all outline-none"
+                      className="w-full bg-gray-50 border-2 border-transparent rounded-2xl p-4 text-sm font-bold focus:bg-white focus:border-brand-orange focus:shadow-lg focus:shadow-brand-orange/5 transition-all outline-none"
                       placeholder="e.g. Special Jollof"
                     />
                   </div>
                   
                   <div>
                     <label className="text-[10px] font-black uppercase tracking-widest text-gray-400 mb-1.5 block">Description</label>
-                    <textarea 
+                    <textarea
                       required
                       value={showAddForm ? newMeal.description : editFormData.description}
                       onChange={(e) => showAddForm
                         ? setNewMeal({...newMeal, description: e.target.value})
                         : setEditFormData({...editFormData, description: e.target.value})
                       }
-                      className="w-full bg-gray-50 border-none rounded-2xl p-4 text-sm font-bold focus:ring-2 focus:ring-brand-orange/20 transition-all h-24 resize-none outline-none"
+                      className="w-full bg-gray-50 border-2 border-transparent rounded-2xl p-4 text-sm font-bold focus:bg-white focus:border-brand-orange focus:shadow-lg focus:shadow-brand-orange/5 transition-all h-24 resize-none outline-none"
                       placeholder="Ingredients, spice level..."
                     />
                   </div>
@@ -531,11 +531,11 @@ export default function Admin() {
                        ))}
                     </div>
                     <div className="flex gap-2 mb-6">
-                      <input 
-                        type="text" 
+                      <input
+                        type="text"
                         id="meat-option-input"
                         placeholder="Add meat option (e.g. Beef, Fish)..."
-                        className="flex-grow bg-gray-50 border-none rounded-2xl p-4 text-sm font-bold focus:ring-2 focus:ring-brand-orange/20 transition-all outline-none"
+                        className="flex-grow bg-gray-50 border-2 border-transparent rounded-2xl p-4 text-sm font-bold focus:bg-white focus:border-brand-orange focus:shadow-lg focus:shadow-brand-orange/5 transition-all outline-none"
                         onKeyDown={(e) => {
                           if (e.key === 'Enter') {
                             e.preventDefault();
@@ -592,11 +592,11 @@ export default function Admin() {
                        ))}
                     </div>
                     <div className="flex gap-2 mb-6">
-                      <input 
-                        type="text" 
+                      <input
+                        type="text"
                         id="acc-option-input"
                         placeholder="Add accompaniment (e.g. Rice, Matooke)..."
-                        className="flex-grow bg-gray-50 border-none rounded-2xl p-4 text-sm font-bold focus:ring-2 focus:ring-brand-orange/20 transition-all outline-none"
+                        className="flex-grow bg-gray-50 border-2 border-transparent rounded-2xl p-4 text-sm font-bold focus:bg-white focus:border-brand-orange focus:shadow-lg focus:shadow-brand-orange/5 transition-all outline-none"
                         onKeyDown={(e) => {
                           if (e.key === 'Enter') {
                             e.preventDefault();
@@ -636,30 +636,30 @@ export default function Admin() {
                   <div className="grid grid-cols-2 gap-4">
                     <div>
                       <label className="text-[10px] font-black uppercase tracking-widest text-gray-400 mb-1.5 block">Price (UGX)</label>
-                      <input 
+                      <input
                         required
-                        type="number" 
+                        type="number"
                         value={showAddForm ? (newMeal.price || '') : (editFormData.price || '')}
                         onChange={(e) => showAddForm
                           ? setNewMeal({...newMeal, price: parseInt(e.target.value)})
                           : setEditFormData({...editFormData, price: parseInt(e.target.value)})
                         }
-                        className="w-full bg-gray-50 border-none rounded-2xl p-4 text-sm font-bold focus:ring-2 focus:ring-brand-orange/20 transition-all outline-none"
+                        className="w-full bg-gray-50 border-2 border-transparent rounded-2xl p-4 text-sm font-bold focus:bg-white focus:border-brand-orange focus:shadow-lg focus:shadow-brand-orange/5 transition-all outline-none"
                         placeholder="8000"
                       />
                     </div>
 
                     <div>
                       <label className="text-[10px] font-black uppercase tracking-widest text-gray-400 mb-1.5 block">Country</label>
-                      <select 
+                      <select
                         value={showAddForm ? newMeal.country : editFormData.country}
                         onChange={(e) => showAddForm
                           ? setNewMeal({...newMeal, country: e.target.value as CountryCategory})
                           : setEditFormData({...editFormData, country: e.target.value as CountryCategory})
                         }
-                        className="w-full bg-gray-50 border-none rounded-2xl p-4 text-sm font-bold focus:ring-2 focus:ring-brand-orange/20 transition-all cursor-pointer outline-none appearance-none"
+                        className="w-full bg-gray-50 border-2 border-transparent rounded-2xl p-4 text-sm font-bold focus:bg-white focus:border-brand-orange focus:shadow-lg focus:shadow-brand-orange/5 transition-all cursor-pointer outline-none appearance-none"
                       >
-                        {['Uganda', 'Somalia', 'Eritrea', 'DR Congo', 'Nigeria', 'Sudan'].map(c => (
+                        {['Uganda', 'Somalia', 'Eritrea', 'DR Congo', 'Nigeria', 'Sudan', 'Ethiopia', 'Kenya', 'Tanzania', 'Rwanda', 'Ghana', 'Senegal', 'Cameroon', 'South Africa', 'Egypt', 'Morocco', 'Diverse'].map(c => (
                           <option key={c} value={c}>{c}</option>
                         ))}
                       </select>
@@ -667,15 +667,15 @@ export default function Admin() {
 
                     <div>
                       <label className="text-[10px] font-black uppercase tracking-widest text-gray-400 mb-1.5 block">Category</label>
-                      <select 
+                      <select
                         value={showAddForm ? newMeal.category : editFormData.category}
                         onChange={(e) => showAddForm
                           ? setNewMeal({...newMeal, category: e.target.value as MealCategory})
                           : setEditFormData({...editFormData, category: e.target.value as MealCategory})
                         }
-                        className="w-full bg-gray-50 border-none rounded-2xl p-4 text-sm font-bold focus:ring-2 focus:ring-brand-orange/20 transition-all cursor-pointer outline-none appearance-none"
+                        className="w-full bg-gray-50 border-2 border-transparent rounded-2xl p-4 text-sm font-bold focus:bg-white focus:border-brand-orange focus:shadow-lg focus:shadow-brand-orange/5 transition-all cursor-pointer outline-none appearance-none"
                       >
-                        {['Main Dish', 'Quick Bite', 'Daily Special', 'Traditional'].map(c => (
+                        {['Main Dish', 'Quick Bite', 'Daily Special', 'Traditional', 'Appetizers & Starters', 'Soups & Stews', 'Grilled & BBQ', 'Desserts & Sweets', 'Beverages', 'Sides & Accompaniments'].map(c => (
                           <option key={c} value={c}>{c}</option>
                         ))}
                       </select>
@@ -683,16 +683,16 @@ export default function Admin() {
 
                     <div>
                       <label className="text-[10px] font-black uppercase tracking-widest text-gray-400 mb-1.5 block">Availability</label>
-                      <select 
-                        value={showAddForm 
-                          ? (newMeal.isAvailable ? 'true' : 'false') 
+                      <select
+                        value={showAddForm
+                          ? (newMeal.isAvailable ? 'true' : 'false')
                           : (editFormData.isAvailable ? 'true' : 'false')
                         }
                         onChange={(e) => showAddForm
                           ? setNewMeal({...newMeal, isAvailable: e.target.value === 'true'})
                           : setEditFormData({...editFormData, isAvailable: e.target.value === 'true'})
                         }
-                        className="w-full bg-gray-50 border-none rounded-2xl p-4 text-sm font-bold focus:ring-2 focus:ring-brand-orange/20 transition-all cursor-pointer outline-none appearance-none"
+                        className="w-full bg-gray-50 border-2 border-transparent rounded-2xl p-4 text-sm font-bold focus:bg-white focus:border-brand-orange focus:shadow-lg focus:shadow-brand-orange/5 transition-all cursor-pointer outline-none appearance-none"
                       >
                         <option value="true">In Stock</option>
                         <option value="false">Sold Out</option>
@@ -702,15 +702,15 @@ export default function Admin() {
 
                   <div>
                     <label className="text-[10px] font-black uppercase tracking-widest text-gray-400 mb-1.5 block">Image URL</label>
-                    <input 
+                    <input
                       required
-                      type="url" 
+                      type="url"
                       value={showAddForm ? newMeal.imageUrl : editFormData.imageUrl}
                       onChange={(e) => showAddForm
                         ? setNewMeal({...newMeal, imageUrl: e.target.value})
                         : setEditFormData({...editFormData, imageUrl: e.target.value})
                       }
-                      className="w-full bg-gray-50 border-none rounded-2xl p-4 text-sm font-bold focus:ring-2 focus:ring-brand-orange/20 transition-all outline-none"
+                      className="w-full bg-gray-50 border-2 border-transparent rounded-2xl p-4 text-sm font-bold focus:bg-white focus:border-brand-orange focus:shadow-lg focus:shadow-brand-orange/5 transition-all outline-none"
                       placeholder="https://image-url.com"
                     />
                   </div>

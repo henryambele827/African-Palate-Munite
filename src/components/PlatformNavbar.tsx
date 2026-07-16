@@ -12,8 +12,18 @@ export default function PlatformNavbar() {
     <nav className="sticky top-4 z-50 mx-4">
       <div className="max-w-7xl mx-auto bg-white rounded-[2rem] shadow-sm border border-gray-100 px-6 py-4 flex items-center justify-between">
         <Link to="/" className="flex items-center gap-3 group">
-          <div className="relative w-12 h-12 rounded-2xl overflow-hidden shadow-lg shadow-black/10 bg-black flex items-center justify-center text-white font-black italic text-lg group-hover:scale-105 transition-transform">
-            AP
+          <div className="relative w-12 h-12 rounded-2xl overflow-hidden shadow-lg shadow-black/10 group-hover:scale-105 transition-transform">
+            <img
+              src="https://i.imgur.com/ShQ3EEN.jpeg"
+              alt="African Palate"
+              className="w-full h-full object-cover"
+              referrerPolicy="no-referrer"
+              onError={(e) => {
+                e.currentTarget.style.display = 'none';
+                e.currentTarget.parentElement!.innerHTML =
+                  '<div class="w-full h-full bg-black flex items-center justify-center text-white font-black italic text-lg">AP</div>';
+              }}
+            />
           </div>
           <div className="flex flex-col leading-none">
             <span className="font-sans text-xl font-black tracking-tighter italic text-brand-orange group-hover:opacity-80 transition-opacity">

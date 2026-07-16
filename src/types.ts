@@ -1,4 +1,4 @@
-export type UserRole = 'customer' | 'brand_admin' | 'superadmin';
+export type UserRole = "customer" | "brand_admin" | "superadmin";
 
 export interface UserProfile {
   uid: string;
@@ -10,9 +10,36 @@ export interface UserProfile {
   createdAt: string;
 }
 
-export type MealCategory = 'Main Dish' | 'Quick Bite' | 'Daily Special' | 'Traditional';
+export type MealCategory =
+  | "Main Dish"
+  | "Quick Bite"
+  | "Daily Special"
+  | "Traditional"
+  | "Appetizers & Starters"
+  | "Soups & Stews"
+  | "Grilled & BBQ"
+  | "Desserts & Sweets"
+  | "Beverages"
+  | "Sides & Accompaniments";
 
-export type CountryCategory = 'Uganda' | 'Somalia' | 'Eritrea' | 'DR Congo' | 'Nigeria' | 'Sudan';
+export type CountryCategory =
+  | "Uganda"
+  | "Somalia"
+  | "Eritrea"
+  | "DR Congo"
+  | "Nigeria"
+  | "Sudan"
+  | "Ethiopia"
+  | "Kenya"
+  | "Tanzania"
+  | "Rwanda"
+  | "Ghana"
+  | "Senegal"
+  | "Cameroon"
+  | "South Africa"
+  | "Egypt"
+  | "Morocco"
+  | "Diverse";
 
 export interface Meal {
   id: string;
@@ -29,7 +56,7 @@ export interface Meal {
   createdAt: string;
 }
 
-export type OrderStatus = 'pending' | 'confirmed' | 'delivered' | 'cancelled';
+export type OrderStatus = "pending" | "confirmed" | "delivered" | "cancelled";
 
 export interface Order {
   id: string;
@@ -52,12 +79,12 @@ export interface Order {
 
 // --- Platform / multi-tenant types ---
 
-export type BrandStatus = 'active' | 'suspended';
+export type BrandStatus = "active" | "suspended";
 
 export interface Organization {
-  id: string;           // brandId
+  id: string; // brandId
   name: string;
-  slug: string;          // URL-safe, unique, used in /b/:slug
+  slug: string; // URL-safe, unique, used in /b/:slug
   status: BrandStatus;
   ownerUid: string;
   ownerEmail: string;
@@ -66,10 +93,10 @@ export interface Organization {
   logoUrl?: string;
   createdAt: string;
   approvedAt: string;
-  approvedBy: string;    // superadmin uid
+  approvedBy: string; // superadmin uid
 }
 
-export type BrandRequestStatus = 'pending' | 'approved' | 'rejected';
+export type BrandRequestStatus = "pending" | "approved" | "rejected";
 
 export interface BrandRequest {
   id: string;

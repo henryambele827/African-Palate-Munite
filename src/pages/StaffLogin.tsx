@@ -231,7 +231,7 @@ export default function StaffLogin() {
             {error}
           </div>
         )}
-        <div className="bg-white rounded-[1.5rem] p-6 border border-gray-100 shadow-sm focus-within:border-brand-purple transition-colors">
+        <div className="bg-white rounded-[1.5rem] p-6 border-2 border-gray-100 shadow-sm focus-within:border-brand-purple focus-within:shadow-lg focus-within:shadow-brand-purple/5 transition-all">
           <label className="text-[10px] font-black uppercase tracking-widest text-gray-400 mb-2 block">
             Email
           </label>
@@ -240,10 +240,11 @@ export default function StaffLogin() {
             type="email"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
-            className="w-full bg-transparent border-none p-0 focus:outline-none text-black font-black text-lg"
+            placeholder="you@restaurant.com"
+            className="w-full bg-transparent border-none p-0 focus:outline-none text-black font-black text-lg placeholder:text-gray-300 placeholder:font-medium"
           />
         </div>
-        <div className="bg-white rounded-[1.5rem] p-6 border border-gray-100 shadow-sm focus-within:border-brand-purple transition-colors">
+        <div className="bg-white rounded-[1.5rem] p-6 border-2 border-gray-100 shadow-sm focus-within:border-brand-purple focus-within:shadow-lg focus-within:shadow-brand-purple/5 transition-all">
           <label className="text-[10px] font-black uppercase tracking-widest text-gray-400 mb-2 block">
             Password
           </label>
@@ -252,14 +253,15 @@ export default function StaffLogin() {
             type="password"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
-            className="w-full bg-transparent border-none p-0 focus:outline-none text-black font-black text-lg"
+            placeholder="••••••••"
+            className="w-full bg-transparent border-none p-0 focus:outline-none text-black font-black text-lg placeholder:text-gray-300 placeholder:font-medium"
           />
         </div>
 
         <button
           type="submit"
           disabled={isSubmitting}
-          className="w-full bg-black text-white font-black py-6 rounded-[1.5rem] text-sm uppercase tracking-[0.2em] italic shadow-xl shadow-black/10 hover:scale-[1.02] transition-all flex items-center justify-center gap-3 disabled:opacity-50"
+          className="w-full bg-black text-white font-black py-6 rounded-[1.5rem] text-sm uppercase tracking-[0.2em] italic shadow-xl shadow-black/10 hover:scale-[1.02] hover:bg-brand-purple transition-all flex items-center justify-center gap-3 disabled:opacity-50 disabled:hover:scale-100"
         >
           {isSubmitting ? (
             <div className="w-5 h-5 border-2 border-white border-t-transparent rounded-full animate-spin"></div>
