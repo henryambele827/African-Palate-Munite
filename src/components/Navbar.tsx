@@ -17,8 +17,8 @@ export default function Navbar() {
   const initials = (brand?.name || '?').slice(0, 2).toUpperCase();
 
   return (
-    <nav className="sticky top-4 z-50 mx-4">
-      <div className="max-w-7xl mx-auto bg-white rounded-[2rem] shadow-sm border border-gray-100 px-6 py-4 flex items-center justify-between">
+    <nav className="sticky top-4 z-50 px-4">
+      <div className="max-w-7xl mx-auto bg-white backdrop-blur-xl rounded-[2rem] shadow-lg shadow-black/5 border border-white/50 px-6 py-4 flex items-center justify-between">
         <Link to="." className="flex items-center gap-3 group">
           <div className="relative w-12 h-12 rounded-2xl overflow-hidden shadow-lg shadow-black/10 group-hover:scale-105 transition-transform">
             {brand?.logoUrl ? (
