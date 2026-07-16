@@ -92,7 +92,7 @@ export default function RegisterBrand() {
       </p>
 
       <form onSubmit={handleSubmit} className="space-y-4">
-        <div className="bg-white rounded-[1.5rem] p-6 border border-gray-100 shadow-sm focus-within:border-brand-orange transition-colors">
+        <div className="bg-white rounded-[1.5rem] p-6 border-2 border-gray-100 shadow-sm focus-within:border-brand-orange focus-within:shadow-lg focus-within:shadow-brand-orange/5 transition-all">
           <label className="text-[10px] font-black uppercase tracking-widest text-gray-400 mb-2 block">Restaurant / Brand Name</label>
           <input
             required
@@ -100,12 +100,12 @@ export default function RegisterBrand() {
             value={form.brandName}
             onChange={(e) => setForm({ ...form, brandName: e.target.value })}
             placeholder="e.g. Jollof House"
-            className="w-full bg-transparent border-none p-0 focus:outline-none text-black font-black text-lg"
+            className="w-full bg-transparent border-none p-0 focus:outline-none text-black font-black text-lg placeholder:text-gray-300 placeholder:font-medium"
           />
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-          <div className="bg-white rounded-[1.5rem] p-6 border border-gray-100 shadow-sm focus-within:border-brand-orange transition-colors">
+          <div className="bg-white rounded-[1.5rem] p-6 border-2 border-gray-100 shadow-sm focus-within:border-brand-orange focus-within:shadow-lg focus-within:shadow-brand-orange/5 transition-all">
             <label className="text-[10px] font-black uppercase tracking-widest text-gray-400 mb-2 block">Your Name</label>
             <input
               required
@@ -113,10 +113,10 @@ export default function RegisterBrand() {
               value={form.applicantName}
               onChange={(e) => setForm({ ...form, applicantName: e.target.value })}
               placeholder="Full name"
-              className="w-full bg-transparent border-none p-0 focus:outline-none text-black font-black text-lg"
+              className="w-full bg-transparent border-none p-0 focus:outline-none text-black font-black text-lg placeholder:text-gray-300 placeholder:font-medium"
             />
           </div>
-          <div className="bg-white rounded-[1.5rem] p-6 border border-gray-100 shadow-sm focus-within:border-brand-orange transition-colors">
+          <div className="bg-white rounded-[1.5rem] p-6 border-2 border-gray-100 shadow-sm focus-within:border-brand-orange focus-within:shadow-lg focus-within:shadow-brand-orange/5 transition-all">
             <label className="text-[10px] font-black uppercase tracking-widest text-gray-400 mb-2 block">Phone Number</label>
             <input
               required
@@ -124,12 +124,12 @@ export default function RegisterBrand() {
               value={form.applicantPhone}
               onChange={(e) => setForm({ ...form, applicantPhone: e.target.value })}
               placeholder="0700123456"
-              className="w-full bg-transparent border-none p-0 focus:outline-none text-black font-black text-lg"
+              className="w-full bg-transparent border-none p-0 focus:outline-none text-black font-black text-lg placeholder:text-gray-300 placeholder:font-medium"
             />
           </div>
         </div>
 
-        <div className="bg-white rounded-[1.5rem] p-6 border border-gray-100 shadow-sm focus-within:border-brand-orange transition-colors">
+        <div className="bg-white rounded-[1.5rem] p-6 border-2 border-gray-100 shadow-sm focus-within:border-brand-orange focus-within:shadow-lg focus-within:shadow-brand-orange/5 transition-all">
           <label className="text-[10px] font-black uppercase tracking-widest text-gray-400 mb-2 block">Email (this becomes your admin login)</label>
           <input
             required
@@ -137,12 +137,12 @@ export default function RegisterBrand() {
             value={form.applicantEmail}
             onChange={(e) => setForm({ ...form, applicantEmail: e.target.value })}
             placeholder="you@restaurant.com"
-            className="w-full bg-transparent border-none p-0 focus:outline-none text-black font-black text-lg"
+            className="w-full bg-transparent border-none p-0 focus:outline-none text-black font-black text-lg placeholder:text-gray-300 placeholder:font-medium"
           />
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-          <div className="bg-white rounded-[1.5rem] p-6 border border-gray-100 shadow-sm focus-within:border-brand-orange transition-colors">
+          <div className="bg-white rounded-[1.5rem] p-6 border-2 border-gray-100 shadow-sm focus-within:border-brand-orange focus-within:shadow-lg focus-within:shadow-brand-orange/5 transition-all">
             <label className="text-[10px] font-black uppercase tracking-widest text-gray-400 mb-2 block">Create a Password</label>
             <input
               required
@@ -151,10 +151,10 @@ export default function RegisterBrand() {
               value={form.password}
               onChange={(e) => setForm({ ...form, password: e.target.value })}
               placeholder="At least 6 characters"
-              className="w-full bg-transparent border-none p-0 focus:outline-none text-black font-black text-lg"
+              className="w-full bg-transparent border-none p-0 focus:outline-none text-black font-black text-lg placeholder:text-gray-300 placeholder:font-medium"
             />
           </div>
-          <div className="bg-white rounded-[1.5rem] p-6 border border-gray-100 shadow-sm focus-within:border-brand-orange transition-colors">
+          <div className="bg-white rounded-[1.5rem] p-6 border-2 border-gray-100 shadow-sm focus-within:border-brand-orange focus-within:shadow-lg focus-within:shadow-brand-orange/5 transition-all">
             <label className="text-[10px] font-black uppercase tracking-widest text-gray-400 mb-2 block">Confirm Password</label>
             <input
               required
@@ -163,27 +163,31 @@ export default function RegisterBrand() {
               value={form.confirmPassword}
               onChange={(e) => setForm({ ...form, confirmPassword: e.target.value })}
               placeholder="Re-enter password"
-              className="w-full bg-transparent border-none p-0 focus:outline-none text-black font-black text-lg"
+              className="w-full bg-transparent border-none p-0 focus:outline-none text-black font-black text-lg placeholder:text-gray-300 placeholder:font-medium"
             />
           </div>
         </div>
 
-        <div className="bg-white rounded-[1.5rem] p-6 border border-gray-100 shadow-sm focus-within:border-brand-orange transition-colors">
+        <div className="bg-white rounded-[1.5rem] p-6 border-2 border-gray-100 shadow-sm focus-within:border-brand-orange focus-within:shadow-lg focus-within:shadow-brand-orange/5 transition-all">
           <label className="text-[10px] font-black uppercase tracking-widest text-gray-400 mb-2 block">Anything else? (optional)</label>
           <textarea
             value={form.message}
             onChange={(e) => setForm({ ...form, message: e.target.value })}
             placeholder="Tell us a bit about your food, location, or timeline..."
-            className="w-full bg-transparent border-none p-0 focus:outline-none text-black font-bold text-base resize-none h-24"
+            className="w-full bg-transparent border-none p-0 focus:outline-none text-black font-bold text-base resize-none h-24 placeholder:text-gray-300"
           />
         </div>
 
-        {error && <p className="text-red-500 text-xs font-bold">{error}</p>}
+        {error && (
+          <div className="bg-red-50 border border-red-100 text-red-600 rounded-2xl p-4 text-xs font-bold leading-relaxed mb-2">
+            {error}
+          </div>
+        )}
 
         <button
           type="submit"
           disabled={isSubmitting}
-          className="w-full bg-black text-white font-black py-6 rounded-[1.5rem] text-sm uppercase tracking-[0.2em] italic shadow-xl shadow-black/10 hover:scale-[1.02] transition-all flex items-center justify-center gap-3 disabled:opacity-50"
+          className="w-full bg-black text-white font-black py-6 rounded-[1.5rem] text-sm uppercase tracking-[0.2em] italic shadow-xl shadow-black/10 hover:scale-[1.02] hover:bg-brand-orange transition-all flex items-center justify-center gap-3 disabled:opacity-50 disabled:hover:scale-100"
         >
           {isSubmitting ? (
             <div className="w-5 h-5 border-2 border-white border-t-transparent rounded-full animate-spin"></div>

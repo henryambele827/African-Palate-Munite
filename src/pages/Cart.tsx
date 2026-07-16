@@ -5,7 +5,7 @@ import { formatUGX, cn } from '../lib/utils';
 import { addDoc, collection } from 'firebase/firestore';
 import { db } from '../lib/firebase';
 import { useBrand } from '../components/BrandProvider';
-import { motion } from 'motion/react';
+import { motion, AnimatePresence } from 'motion/react';
 import { ShoppingBag, MapPin, Phone, Calendar, CreditCard, ChevronLeft, CheckCircle2, ShieldCheck } from 'lucide-react';
 import { addDays, format } from 'date-fns';
 
@@ -277,26 +277,26 @@ export default function Cart() {
           <h2 className="text-xl font-black text-black uppercase tracking-tighter italic mb-6">Delivery details</h2>
           <form onSubmit={handleSubmit} className="space-y-4">
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-              <div className="bg-white rounded-[1.5rem] p-6 border border-gray-100 shadow-sm focus-within:border-brand-orange transition-colors">
+              <div className="bg-white rounded-[1.5rem] p-6 border-2 border-gray-100 shadow-sm focus-within:border-brand-orange focus-within:shadow-lg focus-within:shadow-brand-orange/5 transition-all">
                 <label className="text-[10px] font-black uppercase tracking-widest text-gray-400 mb-2 block">
                   Mobile Money No.
                 </label>
-                <input 
-                  type="tel" 
-                  required 
+                <input
+                  type="tel"
+                  required
                   value={phone}
                   onChange={(e) => setPhone(e.target.value)}
                   placeholder="0700123456"
-                  className="w-full bg-transparent border-none p-0 focus:outline-none text-black font-black text-lg"
+                  className="w-full bg-transparent border-none p-0 focus:outline-none text-black font-black text-lg placeholder:text-gray-300 placeholder:font-medium"
                 />
               </div>
-              <div className="bg-white rounded-[1.5rem] p-6 border border-gray-100 shadow-sm focus-within:border-brand-orange transition-colors">
+              <div className="bg-white rounded-[1.5rem] p-6 border-2 border-gray-100 shadow-sm focus-within:border-brand-orange focus-within:shadow-lg focus-within:shadow-brand-orange/5 transition-all">
                 <label className="text-[10px] font-black uppercase tracking-widest text-gray-400 mb-2 block">
                   Delivery Date
                 </label>
-                <input 
-                  type="date" 
-                  required 
+                <input
+                  type="date"
+                  required
                   min={format(addDays(new Date(), 1), 'yyyy-MM-dd')}
                   value={deliveryDate}
                   onChange={(e) => setDeliveryDate(e.target.value)}
@@ -305,16 +305,16 @@ export default function Cart() {
               </div>
             </div>
 
-            <div className="bg-white rounded-[1.5rem] p-6 border border-gray-100 shadow-sm focus-within:border-brand-orange transition-colors">
+            <div className="bg-white rounded-[1.5rem] p-6 border-2 border-gray-100 shadow-sm focus-within:border-brand-orange focus-within:shadow-lg focus-within:shadow-brand-orange/5 transition-all">
               <label className="text-[10px] font-black uppercase tracking-widest text-gray-400 mb-2 block">
                 Target Spot (Hostel/Campus Area)
               </label>
-              <textarea 
-                required 
+              <textarea
+                required
                 value={deliveryLocation}
                 onChange={(e) => setDeliveryLocation(e.target.value)}
                 placeholder="Where should we drop off your food tomorrow?"
-                className="w-full bg-transparent border-none p-0 focus:outline-none text-black font-black text-lg resize-none h-32"
+                className="w-full bg-transparent border-none p-0 focus:outline-none text-black font-black text-lg resize-none h-32 placeholder:text-gray-300 placeholder:font-medium"
               />
             </div>
 

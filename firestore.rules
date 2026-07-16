@@ -121,8 +121,8 @@ service cloud.firestore {
           return data.name is string && data.name.size() > 0 && data.name.size() <= 100
                  && data.get('description', '') is string && data.get('description', '').size() <= 2000
                  && data.price is number && data.price > 0
-                 && data.category in ['Main Dish', 'Quick Bite', 'Daily Special', 'Traditional']
-                 && data.country in ['Uganda', 'Somalia', 'Eritrea', 'DR Congo', 'Nigeria', 'Sudan']
+                 && data.category in ['Main Dish', 'Quick Bite', 'Daily Special', 'Traditional', 'Appetizers & Starters', 'Soups & Stews', 'Grilled & BBQ', 'Desserts & Sweets', 'Beverages', 'Sides & Accompaniments']
+                 && data.country in ['Uganda', 'Somalia', 'Eritrea', 'DR Congo', 'Nigeria', 'Sudan', 'Ethiopia', 'Kenya', 'Tanzania', 'Rwanda', 'Ghana', 'Senegal', 'Cameroon', 'South Africa', 'Egypt', 'Morocco', 'Diverse']
                  && (data.imageUrl is string || !('imageUrl' in data))
                  && (data.isAvailable is bool || !('isAvailable' in data))
                  && (data.get('options', []) is list)
