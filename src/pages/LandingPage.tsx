@@ -1,6 +1,6 @@
-import React, { useEffect, useState } from 'react';
-import { motion } from 'motion/react';
-import { Link } from 'react-router-dom';
+import React, { useEffect, useState } from "react";
+import { motion } from "motion/react";
+import { Link } from "react-router-dom";
 import {
   ChevronRight,
   Sparkles,
@@ -16,63 +16,63 @@ import {
   Quote,
   CheckCircle2,
   Mail,
-} from 'lucide-react';
-import { listenAllBrands } from '../lib/organizations';
-import { Organization } from '../types';
+} from "lucide-react";
+import { listenAllBrands } from "../lib/organizations";
+import { Organization } from "../types";
 
 const VALUE_PROPS = [
   {
     icon: Store,
-    title: 'Your own storefront',
-    text: 'Every approved brand gets a clean, shareable link at /b/your-slug — your menu, your branding, your customers.',
+    title: "Your own storefront",
+    text: "Every approved brand gets a clean, shareable link at /b/your-slug — your menu, your branding, your customers.",
   },
   {
     icon: Smartphone,
-    title: 'Pre-order by Mobile Money',
-    text: 'Built for African payments. Customers pre-order with a 50% deposit via MTN, Airtel, or any mobile wallet.',
+    title: "Pre-order by Mobile Money",
+    text: "Built for African payments. Customers pre-order with a 50% deposit via MTN, Airtel, or any mobile wallet.",
   },
   {
     icon: BarChart3,
-    title: 'A dashboard that runs the kitchen',
-    text: 'Manage dishes, prices, and availability. Track every order from pending to delivered without leaving the platform.',
+    title: "A dashboard that runs the kitchen",
+    text: "Manage dishes, prices, and availability. Track every order from pending to delivered without leaving the platform.",
   },
   {
     icon: ShieldCheck,
-    title: 'Approved, not anonymous',
-    text: 'Brands are reviewed before they go live, so customers always know the food they are ordering is real and traceable.',
+    title: "Approved, not anonymous",
+    text: "Brands are reviewed before they go live, so customers always know the food they are ordering is real and traceable.",
   },
 ];
 
 const STEPS = [
   {
-    n: '01',
-    title: 'Apply',
-    text: 'Tell us about your brand — your menu, your story, and how customers can reach you on the ground.',
+    n: "01",
+    title: "Apply",
+    text: "Tell us about your brand — your menu, your story, and how customers can reach you on the ground.",
   },
   {
-    n: '02',
-    title: 'Get Approved',
-    text: 'Our team reviews every application. Once approved, we provision your admin account and seed your menu.',
+    n: "02",
+    title: "Get Approved",
+    text: "Our team reviews every application. Once approved, we provision your admin account and seed your menu.",
   },
   {
-    n: '03',
-    title: 'Go Live',
-    text: 'Share your storefront link with your customers. Start taking pre-orders the same day.',
+    n: "03",
+    title: "Go Live",
+    text: "Share your storefront link with your customers. Start taking pre-orders the same day.",
   },
 ];
 
 const STATS = [
-  { value: '17+', label: 'Cuisines supported' },
-  { value: '50%', label: 'Deposit on every order' },
-  { value: '<24h', label: 'From sign-up to live' },
-  { value: '1', label: 'Dashboard for everything' },
+  { value: "17+", label: "Cuisines supported" },
+  { value: "50%", label: "Deposit on every order" },
+  { value: "<24h", label: "From sign-up to live" },
+  { value: "1", label: "Dashboard for everything" },
 ];
 
 const TESTIMONIAL = {
   quote:
-    'African Palate gave our kitchen a real front door online. We stopped juggling WhatsApp screenshots and started seeing orders in one place — and the deposit system means we never cook for free.',
-  name: 'Achieng',
-  role: 'Owner, Lagos Kitchen',
+    "African Palate gave our kitchen a real front door online. We stopped juggling WhatsApp screenshots and started seeing orders in one place — and the deposit system means we never cook for free.",
+  name: "Achieng",
+  role: "Owner, Lagos Kitchen",
 };
 
 export default function LandingPage() {
@@ -81,7 +81,7 @@ export default function LandingPage() {
 
   useEffect(() => {
     const unsub = listenAllBrands((all) => {
-      setBrands(all.filter((b) => b.status === 'active'));
+      setBrands(all.filter((b) => b.status === "active"));
       setLoading(false);
     });
     return unsub;
@@ -90,11 +90,11 @@ export default function LandingPage() {
   return (
     <div className="bg-white overflow-hidden">
       {/* ---------------- HERO ---------------- */}
-      <section className="relative min-h-[88vh] flex items-center pt-28 pb-24 overflow-hidden">
+      <section className="relative min-h-[88vh] flex items-center pt-15 overflow-hidden">
         {/* Background layers */}
         <div className="absolute inset-0 z-0 pointer-events-none">
           <motion.div
-            animate={{ scale: [1, 1.1, 1], opacity: [0.10, 0.18, 0.10] }}
+            animate={{ scale: [1, 1.1, 1], opacity: [0.1, 0.18, 0.1] }}
             transition={{ duration: 10, repeat: Infinity }}
             className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[150%] h-[150%] bg-[radial-gradient(circle,rgba(230,81,0,0.18)_0%,transparent_70%)]"
           />
@@ -135,7 +135,7 @@ export default function LandingPage() {
               >
                 One platform, many kitchens. Every restaurant brand on African
                 Palate gets its own storefront, its own menu, and its own
-                dashboard — we just handle the plumbing.
+                dashboard we just handle the plumbing.
               </motion.p>
 
               <motion.div
@@ -163,7 +163,7 @@ export default function LandingPage() {
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
                 transition={{ delay: 0.4 }}
-                className="flex flex-wrap gap-x-8 gap-y-3 text-[10px] font-black uppercase tracking-widest text-gray-400"
+                className="relative  bottom-6 flex flex-wrap border border-amber-300 gap-x-8 gap-y-3 text-[10px] font-black uppercase tracking-widest text-gray-400"
               >
                 <span className="flex items-center gap-2">
                   <CheckCircle2 size={14} className="text-brand-green" />
@@ -209,21 +209,37 @@ export default function LandingPage() {
 
                   <div className="space-y-3 mb-6">
                     {[
-                      { meal: 'Jollof Rice + Chicken', price: 'UGX 12,000', tag: 'Confirmed' },
-                      { meal: 'Rolex + Tea', price: 'UGX 5,000', tag: 'Pending' },
-                      { meal: 'Matooke + Groundnut', price: 'UGX 10,000', tag: 'Delivered' },
+                      {
+                        meal: "Jollof Rice + Chicken",
+                        price: "UGX 12,000",
+                        tag: "Confirmed",
+                      },
+                      {
+                        meal: "Rolex + Tea",
+                        price: "UGX 5,000",
+                        tag: "Pending",
+                      },
+                      {
+                        meal: "Matooke + Groundnut",
+                        price: "UGX 10,000",
+                        tag: "Delivered",
+                      },
                     ].map((row, i) => (
                       <div
                         key={i}
                         className="flex items-center justify-between p-3 rounded-2xl bg-gray-50"
                       >
                         <div>
-                          <p className="font-black text-sm text-black">{row.meal}</p>
+                          <p className="font-black text-sm text-black">
+                            {row.meal}
+                          </p>
                           <p className="text-[10px] text-gray-400 uppercase tracking-widest mt-0.5">
                             {row.tag}
                           </p>
                         </div>
-                        <p className="font-black text-sm text-brand-orange">{row.price}</p>
+                        <p className="font-black text-sm text-brand-orange">
+                          {row.price}
+                        </p>
                       </div>
                     ))}
                   </div>
@@ -289,7 +305,8 @@ export default function LandingPage() {
             </span>
             <h2 className="text-4xl md:text-6xl font-black tracking-tighter uppercase italic leading-[0.95] text-black">
               Everything an African <br className="hidden md:block" />
-              restaurant needs to <span className="text-brand-orange">go digital</span>.
+              restaurant needs to{" "}
+              <span className="text-brand-orange">go digital</span>.
             </h2>
           </div>
 
@@ -515,8 +532,8 @@ export default function LandingPage() {
               </div>
               <p className="text-sm text-gray-400 font-medium max-w-sm leading-relaxed">
                 A multi-tenant storefront and ordering platform built for
-                African restaurants. From Jollof in Lagos to Matooke in
-                Kampala — every kitchen deserves a real front door online.
+                African restaurants. From Jollof in Lagos to Matooke in Kampala
+                — every kitchen deserves a real front door online.
               </p>
             </div>
             <div>
@@ -571,7 +588,9 @@ export default function LandingPage() {
             </div>
           </div>
           <div className="border-t border-white/10 pt-8 flex flex-col md:flex-row justify-between gap-4 text-[10px] text-gray-500 uppercase tracking-widest font-black">
-            <p>© {new Date().getFullYear()} African Palate. All rights reserved.</p>
+            <p>
+              © {new Date().getFullYear()} African Palate. All rights reserved.
+            </p>
             <p>Built for kitchens that feed the continent.</p>
           </div>
         </div>
